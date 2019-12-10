@@ -24,8 +24,8 @@ import lombok.NonNull;
 public class EnrollVehicle {
 
     @Id
-    @SequenceGenerator(name = "a", sequenceName = "a")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "a")
+    @SequenceGenerator(name = "enroll_vehicle_seq", sequenceName = "enroll_vehicle_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "enroll_vehicle_seq")
     @Column(name = "ENROLL_VEHICLE_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
