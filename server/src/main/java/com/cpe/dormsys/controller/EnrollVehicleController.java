@@ -1,8 +1,24 @@
 package com.cpe.dormsys.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.net.URLDecoder;
 
 import com.cpe.dormsys.entity.EnrollVehicle;
 import com.cpe.dormsys.entity.RoomBooking;
@@ -13,12 +29,7 @@ import com.cpe.dormsys.repository.RoomBookingRepository;
 import com.cpe.dormsys.repository.StaffRepository;
 import com.cpe.dormsys.repository.VehicleTypeRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -27,11 +38,11 @@ public class EnrollVehicleController {
     @Autowired
     private final EnrollVehicleRepository enrollVehicleRepository;
     @Autowired
-    private final RoomBookingRepository roomBookingRepository;
+    private RoomBookingRepository roomBookingRepository;
     @Autowired
-    private final VehicleTypeRepository vehicleTypeRepository;
+    private VehicleTypeRepository vehicleTypeRepository;
     @Autowired
-    private final StaffRepository staffRepository;
+    private StaffRepository staffRepository;
 
     EnrollVehicleController(EnrollVehicleRepository enrollVehicleRepository) {
         this.enrollVehicleRepository = enrollVehicleRepository;
@@ -56,8 +67,8 @@ public class EnrollVehicleController {
         Staff createdBy = staffRepository.findById(staff_id);
 
         newEnrollVehicle.setEnrolledStudent(enrolledStudent);
-        newEnrollVehicle.setVehicletypeOfStudent(vehicleType_id);
-        newEnrollVehicle.setCreatedBy(staff_id);
+        newEnrollVehicle.setVehicletypeOfStudent(vehicletypeOfStudent);
+        newEnrollVehicle.setCreatedBy(createdBy);
         newEnrollVehicle.setEnrollDate(new Date());
         newEnrollVehicle.setLicensePlate(licensePlate);
         newEnrollVehicle.setBrandName(brandName);
