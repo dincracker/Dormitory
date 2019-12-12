@@ -20,36 +20,36 @@ import lombok.NonNull;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="ENROLL_VEHICLE")
+@Table(name = "ENROLL_VEHICLE")
 public class EnrollVehicle {
 
     @Id
-    @SequenceGenerator(name = "enroll_vehicle_seq", sequenceName = "enroll_vehicle_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "enroll_vehicle_seq")
-    @Column(name = "ENROLL_VEHICLE_ID", unique = true, nullable = true)
+    @SequenceGenerator(name="enroll_vehicle_seq",sequenceName="enroll_vehicle_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="enroll_vehicle_seq")
+    @Column(name = "VIDEO_RENTAL_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
     @Column(name = "ENROLL_DATE")
     private @NonNull Date enrollDate;
-    
-    @Column(name = "LICENSE_PLATE")
-    private @NonNull String licensePlate;
 
-    @Column(name = "BRAND_NAME")
-    private @NonNull String brandName;
+    // @Column(name = "LICENSE_PLATE")
+    // private @NonNull String licensePlate;
 
-    @Column(name = "OTHER_DETAILS")
-    private @NonNull String otherDetails;
+    // @Column(name = "BRAND_NAME")
+    // private @NonNull String brandName;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoomBooking.class)
-    @JoinColumn(name = "ROOMBOOKING_ID", insertable = true)
-    private RoomBooking enrolledStudent;
+    // @Column(name = "OTHER_DETAILS")
+    // private @NonNull String otherDetails;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = VehicleType.class)
+    @JoinColumn(name = "VEHICLE_TYPE_ID", insertable = true)
+    private VehicleType typeOfVehicle;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Staff.class)
     @JoinColumn(name = "STAFF_ID", insertable = true)
-    private Staff createdBy;
+    private Staff craetedBy;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = VehicleType.class)
-    @JoinColumn(name = "VEHICLETYPE_ID", insertable = true)
-    private VehicleType vehicletypeOfStudent;
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoomBooking.class)
+    @JoinColumn(name = "ROOMBOOKING_ID", insertable = true)
+    private RoomBooking enrolledStudents;
 }

@@ -1,24 +1,8 @@
 package com.cpe.dormsys.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParseException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.net.URLDecoder;
 
 import com.cpe.dormsys.entity.EnrollVehicle;
 import com.cpe.dormsys.entity.RoomBooking;
@@ -29,50 +13,54 @@ import com.cpe.dormsys.repository.RoomBookingRepository;
 import com.cpe.dormsys.repository.StaffRepository;
 import com.cpe.dormsys.repository.VehicleTypeRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
+@RequestMapping("/api")
 public class EnrollVehicleController {
 
     @Autowired
     private final EnrollVehicleRepository enrollVehicleRepository;
     @Autowired
-    private RoomBookingRepository roomBookingRepository;
+    private StaffRepository staffRepository;
     @Autowired
     private VehicleTypeRepository vehicleTypeRepository;
     @Autowired
-    private StaffRepository staffRepository;
+    private RoomBookingRepository roomBookingRepository;
 
-    EnrollVehicleController(EnrollVehicleRepository enrollVehicleRepository) {
+    EnrollVehicleController(final EnrollVehicleRepository enrollVehicleRepository) {
         this.enrollVehicleRepository = enrollVehicleRepository;
     }
 
     @GetMapping("/enrollVehicle")
-    public Collection<EnrollVehicle> EnrollVehicles() {
+    public Collection<EnrollVehicle> getEnrollVehicles() {
         return enrollVehicleRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @PostMapping("/enrollVehicle/{roombooking_id}/{vehicleType_id}/{staff_id}")
-    public EnrollVehicle newEnrollVehicle(EnrollVehicle newEnrollVehicle,
-    @PathVariable long roombooking_id,
-    @PathVariable long vehicleType_id,
-    @PathVariable long staff_id,
-    @PathVariable String licensePlate,
-    @PathVariable String brandName,
-    @PathVariable String otherDetails) {
+    @PostMapping("/enrollVehicle/{staff_id}/{vehicleType_id}/{roomBooking_id}")
+    public EnrollVehicle newEnrollVehicle(final EnrollVehicle newEnrollVehicle,
+    @PathVariable final long staff_id,
+    @PathVariable final long vehicleType_id,
+    @PathVariable final long roomBooking_id
+    // ,@PathVariable final String licensePlate
+    ) {
 
-        RoomBooking enrolledStudent = roomBookingRepository.findById(roombooking_id);
-        VehicleType vehicletypeOfStudent = vehicleTypeRepository.findById(vehicleType_id);
-        Staff createdBy = staffRepository.findById(staff_id);
+        final Staff craetedBy = staffRepository.findById(staff_id);
+        final VehicleType typeOfVehicle = vehicleTypeRepository.findById(vehicleType_id);
+        final RoomBooking enrolledStudents = roomBookingRepository.findById(roomBooking_id);
 
-        newEnrollVehicle.setEnrolledStudent(enrolledStudent);
-        newEnrollVehicle.setVehicletypeOfStudent(vehicletypeOfStudent);
-        newEnrollVehicle.setCreatedBy(createdBy);
+        newEnrollVehicle.setCraetedBy(craetedBy);
+        newEnrollVehicle.setTypeOfVehicle(typeOfVehicle);
+        newEnrollVehicle.setEnrolledStudents(enrolledStudents);
         newEnrollVehicle.setEnrollDate(new Date());
-        newEnrollVehicle.setLicensePlate(licensePlate);
-        newEnrollVehicle.setBrandName(brandName);
-        newEnrollVehicle.setOtherDetails(otherDetails);
+        // newEnrollVehicle.setLicensePlate(licensePlate);
 
         return enrollVehicleRepository.save(newEnrollVehicle);
     }

@@ -13,18 +13,16 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
 @Entity
-@NoArgsConstructor
 @Table(name = "STAFF")
 public class Staff {
 
     @Id
-    @SequenceGenerator(name = "staff_seq", sequenceName = "staff_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "staff_seq")
+    @SequenceGenerator(name="staf_seq",sequenceName="staf_seq")               
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="staf_seq")  
     @Column(name = "STAFF_ID", unique = true, nullable = true)
     private @NonNull Long id;
 
