@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoomBookingController {
 
     @Autowired
-    private final RoomBookingRepository roomBookingRepository;
+    private RoomBookingRepository roomBookingRepository;
 
-    public RoomBookingController(RoomBookingRepository roomBookingRepository) {
-        this.roomBookingRepository = roomBookingRepository;
-    }
+    // public RoomBookingController(RoomBookingRepository roomBookingRepository) {
+    //     this.roomBookingRepository = roomBookingRepository;
+    // }
 
-    @GetMapping("/vehicleType")
+    @GetMapping("/roomBookings")
     public Collection<RoomBooking> getVehicleTypes() {
         return roomBookingRepository.findAll().stream().collect(Collectors.toList());
     }

@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class StaffController {
 
     @Autowired
-    private final StaffRepository staffRepository;
+    private StaffRepository staffRepository;
 
-    public StaffController(StaffRepository staffRepository) {
-        this.staffRepository = staffRepository;
-    }
+    // public StaffController(StaffRepository staffRepository) {
+    //     this.staffRepository = staffRepository;
+    // }
 
-    @GetMapping("/vehicleType")
+    @GetMapping("/staffs")
     public Collection<Staff> getVehicleTypes() {
         return staffRepository.findAll().stream().collect(Collectors.toList());
     }

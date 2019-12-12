@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class VehicleTypeController {
 
     @Autowired
-    private final VehicleTypeRepository vehicleTypeRepository;
+    private VehicleTypeRepository vehicleTypeRepository;
 
-    public VehicleTypeController(VehicleTypeRepository vehicleTypeRepository) {
-        this.vehicleTypeRepository = vehicleTypeRepository;
-    }
+    // public VehicleTypeController(VehicleTypeRepository vehicleTypeRepository) {
+    //     this.vehicleTypeRepository = vehicleTypeRepository;
+    // }
 
-    @GetMapping("/vehicleType")
+    @GetMapping("/vehicleTypes")
     public Collection<VehicleType> getVehicleTypes() {
         return vehicleTypeRepository.findAll().stream().collect(Collectors.toList());
     }

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EnrollVehicleController {
 
     @Autowired
-    private final EnrollVehicleRepository enrollVehicleRepository;
+    private EnrollVehicleRepository enrollVehicleRepository;
     @Autowired
     private StaffRepository staffRepository;
     @Autowired
@@ -35,9 +35,10 @@ public class EnrollVehicleController {
     @Autowired
     private RoomBookingRepository roomBookingRepository;
 
-    EnrollVehicleController(final EnrollVehicleRepository enrollVehicleRepository) {
-        this.enrollVehicleRepository = enrollVehicleRepository;
-    }
+    // EnrollVehicleController(final EnrollVehicleRepository
+    // enrollVehicleRepository) {
+    // this.enrollVehicleRepository = enrollVehicleRepository;
+    // }
 
     @GetMapping("/enrollVehicle")
     public Collection<EnrollVehicle> getEnrollVehicles() {
@@ -45,16 +46,12 @@ public class EnrollVehicleController {
     }
 
     @PostMapping("/enrollVehicle/{staff_id}/{vehicleType_id}/{roomBooking_id}")
-    public EnrollVehicle newEnrollVehicle(final EnrollVehicle newEnrollVehicle,
-    @PathVariable final long staff_id,
-    @PathVariable final long vehicleType_id,
-    @PathVariable final long roomBooking_id
-    // ,@PathVariable final String licensePlate
-    ) {
+    public EnrollVehicle newEnrollVehicle(EnrollVehicle newEnrollVehicle, @PathVariable long staff_id,
+            @PathVariable long vehicleType_id, @PathVariable long roomBooking_id) {
 
-        final Staff craetedBy = staffRepository.findById(staff_id);
-        final VehicleType typeOfVehicle = vehicleTypeRepository.findById(vehicleType_id);
-        final RoomBooking enrolledStudents = roomBookingRepository.findById(roomBooking_id);
+        Staff craetedBy = staffRepository.findById(staff_id);
+        VehicleType typeOfVehicle = vehicleTypeRepository.findById(vehicleType_id);
+        RoomBooking enrolledStudents = roomBookingRepository.findById(roomBooking_id);
 
         newEnrollVehicle.setCraetedBy(craetedBy);
         newEnrollVehicle.setTypeOfVehicle(typeOfVehicle);
